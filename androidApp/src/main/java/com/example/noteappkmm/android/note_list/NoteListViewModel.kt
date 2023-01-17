@@ -39,6 +39,23 @@ class NoteListViewModel @Inject constructor(
         initialValue = NoteListState()
     )
 
+    /*init {
+        viewModelScope.launch {
+            (1..10).forEach {
+                noteDatabase.insertNote(
+                    Note(
+                        id = null,
+                        title = "Note$it",
+                        content = "content for the note is $it",
+                        colorHex = Note.generateColor(),
+                        created = DateTimeUtil.now()
+                    )
+                )
+
+            }
+        }
+    }*/
+
     fun loadNotes() {
         viewModelScope.launch {
             savedStateHandle["notes"] = noteDatabase.getAllNotes()

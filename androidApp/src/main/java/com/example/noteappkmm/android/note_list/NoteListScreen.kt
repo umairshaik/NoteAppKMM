@@ -29,11 +29,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoteListScreen(
-    noteListViewModel: NoteListViewModel = hiltViewModel()
+    noteListViewModel: NoteListViewModel = hiltViewModel(),
+    navController: NavHostController
 ) {
     val state by noteListViewModel.state.collectAsState()
 
@@ -41,7 +43,10 @@ fun NoteListScreen(
         noteListViewModel.loadNotes()
     })
     Scaffold(floatingActionButton = {
-        FloatingActionButton(onClick = { /*TODO*/ }, backgroundColor = Color.Black) {
+        FloatingActionButton(
+            onClick = { navController.navigate("note_details/-1L") },
+            backgroundColor = Color.Black
+        ) {
             Icon(
                 imageVector = Icons.Default.Add, contentDescription = "Add Note", tint = Color.White
             )
@@ -77,7 +82,7 @@ fun NoteListScreen(
                         .animateItemPlacement(),
                         note = note,
                         backgroundColor = Color(note.colorHex),
-                        onNoteClick = { /*TODO*/ },
+                        onNoteClick = { navController.navigate("note_details/${note.id}") },
                         onDeleteClick = {
                             note.id?.let { noteListViewModel.deleteNoteById(it) }
                         })
